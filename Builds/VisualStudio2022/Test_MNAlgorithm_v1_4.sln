@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio Version 17
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_MNAlgorithm_v1_4 - Standalone Plugin", "Test_MNAlgorithm_v1_4_StandalonePlugin.vcxproj", "{892E004F-7B77-7F3C-1F64-EA9B0051ABF5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F2C2A6B8-5A2F-09C4-E1DB-6CFBAB46CF94} = {F2C2A6B8-5A2F-09C4-E1DB-6CFBAB46CF94}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_MNAlgorithm_v1_4 - VST3", "Test_MNAlgorithm_v1_4_VST3.vcxproj", "{E04F5A67-96A5-F58D-750A-133C7724DA25}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F2C2A6B8-5A2F-09C4-E1DB-6CFBAB46CF94} = {F2C2A6B8-5A2F-09C4-E1DB-6CFBAB46CF94}
+		{F0D4351B-0542-F930-A082-F8C1EFC79A86} = {F0D4351B-0542-F930-A082-F8C1EFC79A86}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_MNAlgorithm_v1_4 - Shared Code", "Test_MNAlgorithm_v1_4_SharedCode.vcxproj", "{F2C2A6B8-5A2F-09C4-E1DB-6CFBAB46CF94}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_MNAlgorithm_v1_4 - VST3 Manifest Helper", "Test_MNAlgorithm_v1_4_VST3ManifestHelper.vcxproj", "{F0D4351B-0542-F930-A082-F8C1EFC79A86}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E04F5A67-96A5-F58D-750A-133C7724DA25}.Debug|x64.ActiveCfg = Debug|x64
+		{E04F5A67-96A5-F58D-750A-133C7724DA25}.Debug|x64.Build.0 = Debug|x64
+		{E04F5A67-96A5-F58D-750A-133C7724DA25}.Release|x64.ActiveCfg = Release|x64
+		{E04F5A67-96A5-F58D-750A-133C7724DA25}.Release|x64.Build.0 = Release|x64
+		{892E004F-7B77-7F3C-1F64-EA9B0051ABF5}.Debug|x64.ActiveCfg = Debug|x64
+		{892E004F-7B77-7F3C-1F64-EA9B0051ABF5}.Debug|x64.Build.0 = Debug|x64
+		{892E004F-7B77-7F3C-1F64-EA9B0051ABF5}.Release|x64.ActiveCfg = Release|x64
+		{892E004F-7B77-7F3C-1F64-EA9B0051ABF5}.Release|x64.Build.0 = Release|x64
+		{F2C2A6B8-5A2F-09C4-E1DB-6CFBAB46CF94}.Debug|x64.ActiveCfg = Debug|x64
+		{F2C2A6B8-5A2F-09C4-E1DB-6CFBAB46CF94}.Debug|x64.Build.0 = Debug|x64
+		{F2C2A6B8-5A2F-09C4-E1DB-6CFBAB46CF94}.Release|x64.ActiveCfg = Release|x64
+		{F2C2A6B8-5A2F-09C4-E1DB-6CFBAB46CF94}.Release|x64.Build.0 = Release|x64
+		{F0D4351B-0542-F930-A082-F8C1EFC79A86}.Debug|x64.ActiveCfg = Debug|x64
+		{F0D4351B-0542-F930-A082-F8C1EFC79A86}.Debug|x64.Build.0 = Debug|x64
+		{F0D4351B-0542-F930-A082-F8C1EFC79A86}.Release|x64.ActiveCfg = Release|x64
+		{F0D4351B-0542-F930-A082-F8C1EFC79A86}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
