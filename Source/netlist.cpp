@@ -195,7 +195,6 @@ std::shared_ptr<Component> Netlist::createComponent(const std::string& netlistLi
     double value = std::stod(tokens[3]);
 
     // Depending on the symbol, instantiate the appropriate component
-    // Example for a resistor:
     switch (symbol[0]) {
     case 'V':
         if (symbol[1] == 'i') {
