@@ -12,7 +12,7 @@ void Netlist::init(const std::string& filename) {
     components = createComponentListFromTxt(filename);
     voltageProbes = getComponents<VoltageProbe>();
     //if there is no component in the netlist or not any voltageProbes
-    // the system is not initialized and we not define the A matrix, the vector x and b, and so on
+    //the system is not initialized and we not define the A matrix, the vector x and b, and so on
     if (components.empty() || voltageProbes.empty()) {
         isInitialized = false;  
         return;

@@ -36,11 +36,9 @@ parameters(*this, nullptr, juce::Identifier("CircuitLive"), {
     mixPercentageParameter = parameters.getRawParameterValue("mix");
     oversamplingParameter  = parameters.getRawParameterValue("oversampling");
 
-    int numInputChannels = getTotalNumInputChannels();
-
     //initialize all the "oversamplers"
     for (int i = 0; i < 3; ++i) {
-        oversampler[i] = std::make_unique<juce::dsp::Oversampling<float>>(numInputChannels, i + 1,
+        oversampler[i] = std::make_unique<juce::dsp::Oversampling<float>>(getTotalNumInputChannels(), i + 1,
             juce::dsp::Oversampling<float>::filterHalfBandPolyphaseIIR);
     }
 };
