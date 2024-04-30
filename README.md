@@ -19,7 +19,7 @@ If you want to test/build this implementation, you will need to have:
 * the [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) library to perform linear algebra and matrix operations
 
 ## Under the hood of the algorithm (from QUCS technical papers)
----
+
 Many different kinds of network element are encountered in network analysis. For circuit analysis
 it is necessary to formulate equations for circuits containing as many different types of network
 elements as possible. There are various methods for equation formulation for a circuit. These
