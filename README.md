@@ -42,5 +42,5 @@ or **LU** decomposition for example. Though this may be difficult by hand, it is
 ---
 If you want to test/build this implementation, you will need to have:
 
--the [Juce framework](https://juce.com/download/)
--the [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) library to perform linear algebra and matrix operations
+* the [Juce framework](https://juce.com/download/)
+* the [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) library to perform linear algebra and matrix operations
