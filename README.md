@@ -11,6 +11,13 @@ The **M**odified **N**odal Analysis **A**lgorithm (MNA) is quite well documented
 - Lawrence T. Pillage, Ronald A. Rohrer, Chandramouli Visweswariah -  Electronic Ciruit And System Simulation Methods
 - Stefan Jahn, Michael Margraf, Vincent Habchi, Raimund Jacob - QUCS Technical Papers
 
+## Prerequisites
+---
+If you want to test/build this implementation, you will need to have:
+
+* the [Juce](https://juce.com/download/) framework
+* the [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) library to perform linear algebra and matrix operations
+
 ## Under the hood of the algorithm (from QUCS technical papers)
 ---
 Many different kinds of network element are encountered in network analysis. For circuit analysis
@@ -36,11 +43,4 @@ The circuit can therefore be solved by a simple matrix manipulation:
 
 $$\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}$$
 
-or **LU** decomposition for example. Though this may be difficult by hand, it is straightforward and so is easily done by computer
-
-## Prerequisites
----
-If you want to test/build this implementation, you will need to have:
-
-* the [Juce](https://juce.com/download/) framework
-* the [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) library to perform linear algebra and matrix operations
+or **LU** decomposition for example. Though this may be difficult by hand, it is straightforward and so is easily done by computer.
