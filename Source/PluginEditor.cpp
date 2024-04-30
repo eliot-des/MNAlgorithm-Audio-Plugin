@@ -114,7 +114,6 @@ void Test_MNAlgorithm_v1_4AudioProcessorEditor::resized()
     outputgainSlider.setBounds(490, 160, 100, 100);
     mixSlider.setBounds(490, 300, 100, 100);
     osComboBox.setBounds(490, 450, 100, 30);
-
     openNetlistButton.setBounds(200, 100, 200, 50);
 
 }
