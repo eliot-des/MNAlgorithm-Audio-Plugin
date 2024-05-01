@@ -54,6 +54,8 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 
+    std::shared_ptr<Netlist> netlist;
+    std::mutex netlistMutex;
 
     void loadNetlistFile(const juce::String& path);
 
@@ -69,7 +71,7 @@ private:
 
     std::unique_ptr<juce::dsp::Oversampling<float>> oversampler[3];
 
-    Netlist netlist;
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Test_MNAlgorithm_v1_4AudioProcessor)
 };
