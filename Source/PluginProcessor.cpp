@@ -187,7 +187,7 @@ void Test_MNAlgorithm_v1_4AudioProcessor::processBlock (juce::AudioBuffer<float>
     }
 
     if (!localNetlist || !localNetlist->isInitialized) {
-        buffer.clear(); // Optionally, pass through the audio or clear the buffer
+        //buffer.clear(); // Optionally, pass through the audio or clear the buffer
         return;
     }
 
