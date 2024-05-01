@@ -54,9 +54,7 @@ void Netlist::reset() {
     A.setZero();
     x.setZero();
     b.setZero();
-    // Reset the LU decomposition object
-    // don't seem to be the problem
-    luDecomp = Eigen::PartialPivLU<Eigen::MatrixXd>(); 
+     
     m = 0;
     n = 0;
 
@@ -74,7 +72,7 @@ void Netlist::clear_system() {
 void Netlist::solve_system() {
     for (const auto& comp : reactiveComponents) comp->setResistance(1 / sampleRate);
     for (const auto& comp : components) comp->stamp(*this);
-    luDecomp.compute(A.bottomRightCorner(m + n - 1, m + n - 1)); 
+    luDecomp.compute(A.bottomRightCorner(A.rows() - 1, A.cols() - 1));
 }
 
 
