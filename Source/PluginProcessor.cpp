@@ -179,8 +179,17 @@ void Test_MNAlgorithm_v1_4AudioProcessor::processBlock (juce::AudioBuffer<float>
         buffer.clear (i, 0, buffer.getNumSamples());
 
 
-    // Bypass all the processing if the netlist is not initialized
-    if (!netlist.isInitialized) return;
+    std::shared_ptr<Netlist> localNetlist;
+
+    {
+        std::lock_guard<std::mutex> lock(netlistMutex);
+        localNetlist = netlist; // Copy the shared_ptr
+    }
+
+    if (!localNetlist || !localNetlist->isInitialized) {
+        buffer.clear(); // Optionally, pass through the audio or clear the buffer
+        return;
+    }
 
 
     const auto inputGain = inputGainParameter->load();
@@ -188,16 +197,16 @@ void Test_MNAlgorithm_v1_4AudioProcessor::processBlock (juce::AudioBuffer<float>
     const auto mixPercentage = mixPercentageParameter->load();
     const auto oversamplingIndex = static_cast<int>(oversamplingParameter->load());
 
-    netlist.setInputGain(inputGain);
-    netlist.setOutputGain(outputGain);
-    netlist.setMixPercentage(mixPercentage);
+    localNetlist->setInputGain(inputGain);
+    localNetlist->setOutputGain(outputGain);
+    localNetlist->setMixPercentage(mixPercentage);
 
 
     const double effectiveSampleRate = currentSampleRate * std::pow(2.0, oversamplingIndex - 1);
-    if (effectiveSampleRate != netlist.sampleRate) {
-        netlist.setSampleRate(effectiveSampleRate);
-        netlist.clear_system();
-        netlist.solve_system();
+    if (effectiveSampleRate != localNetlist->sampleRate) {
+        localNetlist->setSampleRate(effectiveSampleRate);
+        localNetlist->clear_system();
+        localNetlist->solve_system();
     }
 
 
@@ -205,11 +214,11 @@ void Test_MNAlgorithm_v1_4AudioProcessor::processBlock (juce::AudioBuffer<float>
 
     if (oversamplingIndex > 1) {
         auto oversampledblock = oversampler[oversamplingIndex - 2]->processSamplesUp(inputblock);
-        netlist.processBlock(oversampledblock);
+        localNetlist->processBlock(oversampledblock);
         oversampler[oversamplingIndex - 2]->processSamplesDown(inputblock);
     }
     else {
-        netlist.processBlock(inputblock);
+        localNetlist->processBlock(inputblock);
     }
     
 }
