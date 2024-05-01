@@ -115,10 +115,10 @@ void Test_MNAlgorithm_v1_4AudioProcessor::loadNetlistFile(const juce::String& pa
 
     try {
         newNetlist->init(path.toStdString()); // Initialize the new netlist
-        if (newNetlist->isInitialized) {
-            newNetlist->prepareChannels(getTotalNumInputChannels());
-            newNetlist->setSampleRate(currentSampleRate);
-            newNetlist->solve_system();
+        if (netlist->isInitialized) {
+            netlist->prepareChannels(getTotalNumInputChannels());
+            netlist->setSampleRate(currentSampleRate);
+            netlist->solve_system();
         }
     }
     catch (...) {
