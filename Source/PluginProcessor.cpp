@@ -111,23 +111,22 @@ void Test_MNAlgorithm_v1_4AudioProcessor::changeProgramName (int index, const ju
 
 void Test_MNAlgorithm_v1_4AudioProcessor::loadNetlistFile(const juce::String& path) {
 
-    //suspend processing while loading the netlist, don't know if this is good practice...
-    suspendProcessing(true);
-    try {
-        netlist.reset();
-        netlist.init(path.toStdString());
+    auto newNetlist = std::make_shared<Netlist>(); // Create a new netlist instance
 
-        if (netlist.isInitialized) {
-            netlist.prepareChannels(getTotalNumInputChannels());
-            netlist.setSampleRate(currentSampleRate);
-            netlist.solve_system();
+    try {
+        newNetlist->init(path.toStdString()); // Initialize the new netlist
+        if (netlist->isInitialized) {
+            netlist->prepareChannels(getTotalNumInputChannels());
+            netlist->setSampleRate(currentSampleRate);
+            netlist->solve_system();
         }
     }
     catch (...) {
         // Handle exceptions or errors later...
-        netlist.isInitialized = false;
     }
-    suspendProcessing(false);
+    // Lock and swap
+    std::lock_guard<std::mutex> lock(netlistMutex);
+    netlist = newNetlist; // Atomically replace the old netlist with the new one
 }
 
 //==============================================================================
