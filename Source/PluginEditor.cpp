@@ -71,10 +71,22 @@ Test_MNAlgorithm_v1_4AudioProcessorEditor::Test_MNAlgorithm_v1_4AudioProcessorEd
     osLabel.setJustificationType(juce::Justification::centredTop);
 
     //======================OpenFile Button==================================
+    
+    
+    fileComp.reset(new juce::FilenameComponent("fileComp",
+        {},                       // current file
+        false,                     // can edit file name,
+        false,                    // is directory,
+        false,                    // is for saving,
+        "*.txt",                  // browser wildcard suffix,
+        {},                       // enforced suffix,
+        "Select netlist to open"));  // text when nothing selected
+    //set default directory to the desktop
+    fileComp->setDefaultBrowseTarget(juce::File::getSpecialLocation(juce::File::userDesktopDirectory));
 
-    addAndMakeVisible(openNetlistButton);
-    openNetlistButton.setButtonText("Open Netlist");
-    openNetlistButton.onClick = [this] { openNetlistButtonClicked(); };
+    addAndMakeVisible(fileComp.get());
+    fileComp->addListener(this);
+      
 
     //======================TextEditor==================================
 
@@ -87,18 +99,23 @@ Test_MNAlgorithm_v1_4AudioProcessorEditor::Test_MNAlgorithm_v1_4AudioProcessorEd
     setSize(600, 500);
 }
 
-void Test_MNAlgorithm_v1_4AudioProcessorEditor::openNetlistButtonClicked() {
-    fileChooser.launchAsync(juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles,
-        [this](const juce::FileChooser& chooser) {
-            juce::File file = chooser.getResult();
-            if (file.existsAsFile()) {
-                audioProcessor.loadNetlistFile(file.getFullPathName());
-                auto fileText = file.loadFileAsString();
-                textContent->setText(fileText);
-            }
-        });
+
+
+void Test_MNAlgorithm_v1_4AudioProcessorEditor::filenameComponentChanged(juce::FilenameComponent* fileComponentThatHasChanged)
+{
+    if (fileComponentThatHasChanged == fileComp.get())
+        readFile(fileComp->getCurrentFile());
 }
 
+void Test_MNAlgorithm_v1_4AudioProcessorEditor::readFile(const juce::File& fileToRead)
+{
+    if (!fileToRead.existsAsFile()) // [1]
+        return;
+
+    audioProcessor.loadNetlistFile(fileToRead.getFullPathName());
+    auto fileText = fileToRead.loadFileAsString();
+    textContent->setText(fileText);
+}
 
 Test_MNAlgorithm_v1_4AudioProcessorEditor::~Test_MNAlgorithm_v1_4AudioProcessorEditor()
 {
@@ -123,7 +140,7 @@ void Test_MNAlgorithm_v1_4AudioProcessorEditor::resized()
     outputgainSlider.setBounds(490, 160, 100, 100);
     mixSlider.setBounds(490, 300, 100, 100);
     osComboBox.setBounds(490, 450, 100, 30);
-    openNetlistButton.setBounds(20, 20, 200, 50);
-
-    textContent->setBounds(20, 90, 450, 390);
+    
+    fileComp->setBounds(20, 20, 450, 30);
+    textContent->setBounds(20, 70, 450, 410);
 }

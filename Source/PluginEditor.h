@@ -14,7 +14,8 @@
 //==============================================================================
 /**
 */
-class Test_MNAlgorithm_v1_4AudioProcessorEditor  : public juce::AudioProcessorEditor
+class Test_MNAlgorithm_v1_4AudioProcessorEditor  : public juce::AudioProcessorEditor,
+                                                   public juce::FilenameComponentListener
 {
 public:
     Test_MNAlgorithm_v1_4AudioProcessorEditor 
@@ -25,6 +26,8 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    void filenameComponentChanged(juce::FilenameComponent* fileComponentThatHasChanged);
+    void readFile(const juce::File& fileToRead);
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
@@ -45,8 +48,7 @@ private:
     juce::Label mixLabel;
     juce::Label osLabel;
 
-    juce::TextButton openNetlistButton;
-    juce::FileChooser fileChooser{ "Select a netlist file to open...", juce::File{}, "*.txt" };
+    std::unique_ptr<juce::FilenameComponent> fileComp;
     std::unique_ptr<juce::TextEditor> textContent;
 
     void openNetlistButtonClicked();
