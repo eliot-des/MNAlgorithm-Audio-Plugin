@@ -76,6 +76,13 @@ Test_MNAlgorithm_v1_4AudioProcessorEditor::Test_MNAlgorithm_v1_4AudioProcessorEd
     openNetlistButton.setButtonText("Open Netlist");
     openNetlistButton.onClick = [this] { openNetlistButtonClicked(); };
 
+    //======================TextEditor==================================
+
+    textContent.reset(new juce::TextEditor());
+    addAndMakeVisible(textContent.get());
+    textContent->setMultiLine(true);
+    textContent->setReadOnly(true);
+    textContent->setCaretVisible(false);
 
     setSize(600, 500);
 }
@@ -86,6 +93,8 @@ void Test_MNAlgorithm_v1_4AudioProcessorEditor::openNetlistButtonClicked() {
             juce::File file = chooser.getResult();
             if (file.existsAsFile()) {
                 audioProcessor.loadNetlistFile(file.getFullPathName());
+                auto fileText = file.loadFileAsString();
+                textContent->setText(fileText);
             }
         });
 }
@@ -103,7 +112,7 @@ void Test_MNAlgorithm_v1_4AudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour(juce::Colours::white);
     g.setFont(30.0f);
-    g.drawFittedText("Real-Time MNA Algorithm", getLocalBounds(), juce::Justification::centred, 1);
+    //g.drawFittedText("Real-Time MNA Algorithm", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 void Test_MNAlgorithm_v1_4AudioProcessorEditor::resized()
@@ -114,6 +123,7 @@ void Test_MNAlgorithm_v1_4AudioProcessorEditor::resized()
     outputgainSlider.setBounds(490, 160, 100, 100);
     mixSlider.setBounds(490, 300, 100, 100);
     osComboBox.setBounds(490, 450, 100, 30);
-    openNetlistButton.setBounds(200, 100, 200, 50);
+    openNetlistButton.setBounds(20, 20, 200, 50);
 
+    textContent->setBounds(20, 90, 450, 390);
 }

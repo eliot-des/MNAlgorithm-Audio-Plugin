@@ -47,6 +47,8 @@ private:
 
     juce::TextButton openNetlistButton;
     juce::FileChooser fileChooser{ "Select a netlist file to open...", juce::File{}, "*.txt" };
+    std::unique_ptr<juce::TextEditor> textContent;
+
     void openNetlistButtonClicked();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Test_MNAlgorithm_v1_4AudioProcessorEditor)
