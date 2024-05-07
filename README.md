@@ -44,3 +44,5 @@ The circuit can therefore be solved by a simple matrix manipulation:
 $$\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}$$
 
 or **LU** decomposition for example. Though this may be difficult by hand, it is straightforward and so is easily done by computer.
+
+Actually, this program use LU decomposition instead of computing the inverse as the computationnal cost to perform the LU decomposition is lower. 
