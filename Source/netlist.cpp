@@ -22,11 +22,11 @@ void Netlist::init(const std::string& filename) {
         
     }
 
-    resistances = getComponents<Resistance>();
-    reactiveComponents = getComponents<ReactiveComponent>();
-    idealOPAs = getComponents<IdealOPA>();
-    voltageSources = getComponents<VoltageSource>();
-    currentSources = getComponents<CurrentSource>();
+    resistances         = getComponents<Resistance>();
+    reactiveComponents  = getComponents<ReactiveComponent>();
+    idealOPAs           = getComponents<IdealOPA>();
+    voltageSources      = getComponents<VoltageSource>();
+    currentSources      = getComponents<CurrentSource>();
 
     m = std::size(voltageSources) + std::size(reactiveComponents) + std::size(idealOPAs);
     n = getNodeNbr();       // Total number of unique nodes
@@ -99,15 +99,12 @@ void Netlist::processBlock(juce::dsp::AudioBlock<float>& audioBlock) {
                 }
                 source->stamp(*this);
             }
+
             for (auto& comp : reactiveComponents) {
-                comp->updateVoltage(*this);
+                comp->updateVoltage(*this); 
                 comp->stamp(*this);
             }
 
-            /* Solve the system
-            *  We remove the first row and column of the A matrix, 
-            *  as the first element of the vector b because they refer to the ground node
-            */
             x.tail(x.size() - 1) = luDecomp.solve(b.tail(b.size() - 1));
 
             //actualize the voltage value on the voltage probes

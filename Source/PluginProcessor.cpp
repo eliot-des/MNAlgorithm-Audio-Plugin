@@ -120,9 +120,12 @@ void Test_MNAlgorithm_v1_4AudioProcessor::loadNetlistFile(const juce::String& pa
             newNetlist->setSampleRate(currentSampleRate);
             newNetlist->solve_system();
         }
+        // Update the path to the current netlist file
+        netlistPath = path;
     }
     catch (...) {
         // Handle exceptions or errors later...
+        netlistPath = {};  // Clear the path if loading failed.
     }
     // Lock and swap
     std::lock_guard<std::mutex> lock(netlistMutex);
@@ -239,15 +242,27 @@ void Test_MNAlgorithm_v1_4AudioProcessor::getStateInformation (juce::MemoryBlock
 {
     auto state = parameters.copyState();
     std::unique_ptr<juce::XmlElement> xml(state.createXml());
+
+    // Add the netlist path as a new child element.
+    xml->setAttribute("netlistPath", netlistPath);
+
     copyXmlToBinary(*xml, destData);
 }
 
 void Test_MNAlgorithm_v1_4AudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
-    if (xmlState.get() != nullptr)
-        if (xmlState->hasTagName(parameters.state.getType()))
-            parameters.replaceState(juce::ValueTree::fromXml(*xmlState));
+
+    if (xmlState.get() != nullptr && xmlState->hasTagName(parameters.state.getType())) {
+        parameters.replaceState(juce::ValueTree::fromXml(*xmlState));
+
+        // Read the netlist path attribute and update the member variable.
+        if (xmlState->hasAttribute("netlistPath")) {
+            netlistPath = xmlState->getStringAttribute("netlistPath");
+            loadNetlistFile(netlistPath);  // Optionally reload the netlist file
+
+        }
+    }
 }
 
 //==============================================================================

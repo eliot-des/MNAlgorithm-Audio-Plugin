@@ -94,7 +94,15 @@ Test_MNAlgorithm_v1_4AudioProcessorEditor::Test_MNAlgorithm_v1_4AudioProcessorEd
     addAndMakeVisible(textContent.get());
     textContent->setMultiLine(true);
     textContent->setReadOnly(false);
-    textContent->setCaretVisible(false);
+    textContent->setCaretVisible(true);
+    textContent->setPopupMenuEnabled(true);
+    textContent->setScrollbarsShown(true);
+    textContent->setReturnKeyStartsNewLine(true);
+
+    //======================Save Button==================================
+    addAndMakeVisible(updateButton);
+    updateButton.setButtonText("Update");
+    updateButton.onClick = [this] { updateButtonClicked(); };
 
     setSize(600, 500);
 }
@@ -117,6 +125,14 @@ void Test_MNAlgorithm_v1_4AudioProcessorEditor::readFile(const juce::File& fileT
     textContent->setText(fileText);
 }
 
+void Test_MNAlgorithm_v1_4AudioProcessorEditor::updateButtonClicked() {
+    if (!audioProcessor.netlistPath.isEmpty()) {
+        juce::File file(audioProcessor.netlistPath);
+        file.replaceWithText(textContent->getText());
+        readFile(file);
+    }
+}
+
 Test_MNAlgorithm_v1_4AudioProcessorEditor::~Test_MNAlgorithm_v1_4AudioProcessorEditor()
 {
 }
@@ -131,8 +147,6 @@ void Test_MNAlgorithm_v1_4AudioProcessorEditor::paint (juce::Graphics& g)
     g.setColour(juce::Colours::white);
     g.setFont(25.0f);
     g.drawFittedText("Circuit-Live", 20, 20, 300, 20, juce::Justification::centredLeft, 1);
-    g.setFont(25.0f);
-    g.drawFittedText("v0.1.4", 0, 50, 470, 20, juce::Justification::centredRight, 1);
 }
 
 void Test_MNAlgorithm_v1_4AudioProcessorEditor::resized()
@@ -145,6 +159,8 @@ void Test_MNAlgorithm_v1_4AudioProcessorEditor::resized()
     mixSlider.setBounds(490, 300, 100, 100);
     osComboBox.setBounds(490, 450, 100, 30);
     
-    fileComp->setBounds(20, 50, 450, 30);
+    fileComp->setBounds(20, 50, 360, 30);
+    updateButton.setBounds(400, 50, 70, 30);
     textContent->setBounds(20, 100, 450, 380);
+    
 }

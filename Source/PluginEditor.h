@@ -48,9 +48,11 @@ private:
 
     std::unique_ptr<juce::FilenameComponent> fileComp;
     std::unique_ptr<juce::TextEditor> textContent;
+    juce::TextButton updateButton;
 
     void filenameComponentChanged(juce::FilenameComponent* fileComponentThatHasChanged);
     void readFile(const juce::File& fileToRead);
+    void updateButtonClicked();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Test_MNAlgorithm_v1_4AudioProcessorEditor)
 };

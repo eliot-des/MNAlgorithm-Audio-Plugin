@@ -60,6 +60,9 @@ public:
     void loadNetlistFile(const juce::String& path);
 
     double currentSampleRate = 0.0;
+
+    juce::String netlistPath;
+
 private:
 
     juce::AudioProcessorValueTreeState parameters;
