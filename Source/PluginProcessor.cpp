@@ -125,7 +125,7 @@ void Test_MNAlgorithm_v1_4AudioProcessor::loadNetlistFile(const juce::String& pa
     }
     catch (...) {
         // Handle exceptions or errors later...
-        netlistPath = {};  // Clear the path if loading failed.
+        //netlistPath = {};  // Clear the path if loading failed.
     }
     // Lock and swap
     std::lock_guard<std::mutex> lock(netlistMutex);
