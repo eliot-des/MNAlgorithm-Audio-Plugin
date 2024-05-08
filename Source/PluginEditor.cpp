@@ -98,6 +98,7 @@ Test_MNAlgorithm_v1_4AudioProcessorEditor::Test_MNAlgorithm_v1_4AudioProcessorEd
     textContent->setPopupMenuEnabled(true);
     textContent->setScrollbarsShown(true);
     textContent->setReturnKeyStartsNewLine(true);
+    textContent->setFont(juce::Font("Consolas", 20.0f, juce::Font::plain));
 
     //======================Save Button==================================
     addAndMakeVisible(updateButton);
@@ -146,8 +147,8 @@ void Test_MNAlgorithm_v1_4AudioProcessorEditor::paint (juce::Graphics& g)
     g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
 
     g.setColour(juce::Colours::white);
-    g.setFont(25.0f);
-    g.drawFittedText("Circuit-Live", 20, 20, 300, 20, juce::Justification::centredLeft, 1);
+    g.setFont(juce::Font("Century Gothic", 33.0f, juce::Font::bold));
+    g.drawFittedText("Circuit-Live", 20, 15, 300, 20, juce::Justification::centredLeft, 1);
 }
 
 void Test_MNAlgorithm_v1_4AudioProcessorEditor::resized()
