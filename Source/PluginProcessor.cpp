@@ -260,7 +260,11 @@ void Test_MNAlgorithm_v1_4AudioProcessor::setStateInformation (const void* data,
         if (xmlState->hasAttribute("netlistPath")) {
             netlistPath = xmlState->getStringAttribute("netlistPath");
             loadNetlistFile(netlistPath);  // Optionally reload the netlist file
-
+            
+            // Notify the editor to update its content if it's visible
+            if (auto* editor = dynamic_cast<Test_MNAlgorithm_v1_4AudioProcessorEditor*>(getActiveEditor())) {
+                editor->readFile(netlistPath);
+            }
         }
     }
 }

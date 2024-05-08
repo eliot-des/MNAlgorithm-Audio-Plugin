@@ -25,7 +25,7 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
-
+    void readFile(const juce::File& fileToRead);
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
@@ -51,7 +51,7 @@ private:
     juce::TextButton updateButton;
 
     void filenameComponentChanged(juce::FilenameComponent* fileComponentThatHasChanged);
-    void readFile(const juce::File& fileToRead);
+    
     void updateButtonClicked();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Test_MNAlgorithm_v1_4AudioProcessorEditor)

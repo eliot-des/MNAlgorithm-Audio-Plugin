@@ -133,6 +133,7 @@ void Test_MNAlgorithm_v1_4AudioProcessorEditor::updateButtonClicked() {
     }
 }
 
+
 Test_MNAlgorithm_v1_4AudioProcessorEditor::~Test_MNAlgorithm_v1_4AudioProcessorEditor()
 {
 }
