@@ -26,8 +26,6 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    void filenameComponentChanged(juce::FilenameComponent* fileComponentThatHasChanged);
-    void readFile(const juce::File& fileToRead);
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
