@@ -126,7 +126,7 @@ void Test_MNAlgorithm_v1_4AudioProcessorEditor::readFile(const juce::File& fileT
 }
 
 void Test_MNAlgorithm_v1_4AudioProcessorEditor::updateButtonClicked() {
-    if (!audioProcessor.netlistPath.isEmpty()) {
+    if (audioProcessor.netlistPath.isNotEmpty()) {
         juce::File file(audioProcessor.netlistPath);
         file.replaceWithText(textContent->getText());
         readFile(file);

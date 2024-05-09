@@ -119,14 +119,16 @@ void Test_MNAlgorithm_v1_4AudioProcessor::loadNetlistFile(const juce::String& pa
             newNetlist->prepareChannels(getTotalNumInputChannels());
             newNetlist->setSampleRate(currentSampleRate);
             newNetlist->solve_system();
+            //netlistPath = path;
         }
-        // Update the path to the current netlist file
-        netlistPath = path;
+        
     }
     catch (...) {
         // Handle exceptions or errors later...
         //netlistPath = {};  // Clear the path if loading failed.
     }
+    // Update the path to the current netlist file even if loading the netlist have failed
+    netlistPath = path;
     // Lock and swap
     std::lock_guard<std::mutex> lock(netlistMutex);
     netlist = newNetlist; // Atomically replace the old netlist with the new one
