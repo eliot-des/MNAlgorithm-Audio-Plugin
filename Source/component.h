@@ -90,3 +90,28 @@ public:
 	//Method to update the voltage of the probe
 	void getVoltage(Netlist& netlist);
 };
+
+
+class Diode : public Component {
+public:
+    Diode(unsigned start_node, unsigned end_node);
+
+    virtual void stamp(Netlist& netlist) const override;
+
+    void update_voltage(Netlist& netlist);
+    void update_Id(Netlist& netlist);
+    void update_Geq(Netlist& netlist);
+    void update_Ieq(Netlist& netlist);
+
+    double Vt;      //thermal voltage
+    double N;       //emission coefficient of the diode
+    double Is;      //saturation current
+    double N_Vt;    //N*Vt
+
+    double Id;      //current through the diode
+    double voltage; //voltage across the diode
+
+    double Ieq;     //equivalent current
+    double Geq;	    //equivalent conductance
+
+};

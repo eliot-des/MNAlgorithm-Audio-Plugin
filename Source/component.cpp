@@ -107,3 +107,52 @@ VoltageProbe::VoltageProbe(unsigned start_node, unsigned end_node)
 void VoltageProbe::getVoltage(Netlist& netlist) {
 	value = netlist.x(start_node) - netlist.x(end_node);
 } 
+
+
+Diode::Diode(unsigned start_node, unsigned end_node)
+    : Component(start_node, end_node, 0.0) {
+
+    //Diode parameters based on the characteristics of the 1N34A model
+
+    N = 1.6;	   //ideality factor
+    Is = 2.6e-6;   //reverse saturation current
+
+    Vt = 0.025852;  //thermal voltage at approx. 300K 
+    N_Vt = N * Vt;  //N*Vt
+
+    Id = 0;         //current through the diode
+    voltage = 0;    //voltage across the diode
+
+    Ieq = 0;        //equivalent current
+    Geq = 0;	    //equivalent conductance
+}
+
+
+void Diode::stamp(Netlist& netlist) const {
+    unsigned n = netlist.n;
+
+    netlist.A(start_node, start_node) += Geq;
+    netlist.A(end_node, end_node) += Geq;
+    netlist.A(start_node, end_node) -= Geq;
+    netlist.A(end_node, start_node) -= Geq;
+
+    netlist.b(start_node) -= Is;
+    netlist.b(end_node) += Is;
+
+}
+
+void Diode::update_voltage(Netlist& netlist) {
+    voltage = netlist.x(start_node) - netlist.x(end_node);
+}
+
+void Diode::update_Id(Netlist& netlist) {
+    Id = Is * std::expm1(voltage / N_Vt); //Id = Is * (std::exp(voltage / N_Vt) - 1);
+}
+
+void Diode::update_Geq(Netlist& netlist) {
+    Geq = (Is / N_Vt) * std::exp(voltage / N_Vt);
+}
+
+void Diode::update_Ieq(Netlist& netlist) {
+    Ieq = Id - Geq * voltage;
+}
