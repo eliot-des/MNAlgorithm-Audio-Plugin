@@ -81,7 +81,7 @@ void NonLinearProcessStrategy::processBlock(Netlist& netlist, juce::dsp::AudioBl
                 /*
                 Have to improve the way to update the values of the diodes,
                 since re - stamping the whole system at each iteration is not efficient.
-                In theory, we should just stamp the new values of the diodes in the A matrix and b vector.
+                In theory, we should just stamp the new values of the diodes (Ieq and Geq) in the A matrix and b vector.
                 Here, we are oblige to reset all the system, since the stamping operation
                 is done by a "+=" operation, and we can't just remove the contribution of the diodes
                 in the A matrix and b vector
