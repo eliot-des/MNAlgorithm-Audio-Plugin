@@ -1,7 +1,7 @@
 //netlist.cpp
 #include "Netlist.h"
 #include "component.h"
-#include "chrono"
+
 
 Netlist::Netlist(const std::string& filename) {
     init(filename);
@@ -27,6 +27,7 @@ void Netlist::init(const std::string& filename) {
     idealOPAs           = getComponents<IdealOPA>();
     voltageSources      = getComponents<VoltageSource>();
     currentSources      = getComponents<CurrentSource>();
+    diodes 			    = getComponents<Diode>();
 
     m = std::size(voltageSources) + std::size(reactiveComponents) + std::size(idealOPAs);
     n = getNodeNbr();       // Total number of unique nodes
@@ -38,6 +39,8 @@ void Netlist::init(const std::string& filename) {
     A.setZero();
     x.setZero();
     b.setZero();
+
+    initializeProcessStrategy();
 }
 
 
@@ -50,6 +53,7 @@ void Netlist::reset() {
     voltageSources.clear();
     currentSources.clear();
     voltageProbes.clear();
+    diodes.clear();
 
     A.setZero();
     x.setZero();
@@ -76,54 +80,24 @@ void Netlist::solve_system() {
 }
 
 
+//====================================================================================================
+//====================================================================================================
+void Netlist::setStrategy(std::unique_ptr<ProcessStrategy> strategy) {
+    processStrategy = std::move(strategy);
+}
+
 void Netlist::processBlock(juce::dsp::AudioBlock<float>& audioBlock) {
+    //if (processStrategy) {
+        processStrategy->processBlock(*this, audioBlock);
+    //}
+}
 
-    const auto mix = mixPercentage / 100.0f;
-
-    for (auto channel = 0; channel < audioBlock.getNumChannels(); ++channel) {
-        auto* channelSamples = audioBlock.getChannelPointer(channel);
-
-        // Use saved states for this channel
-        b = channelBStates[channel];
-        x = channelXStates[channel];
-
-        for (auto i = 0; i < audioBlock.getNumSamples(); i++) {
-            const auto inputSample = channelSamples[i];
-            const auto inputCircuitSample = inputSample * std::pow(10, inputGain / 20);
-
-            // Update the system based on the input sample
-            for (auto& source : voltageSources) {
-                std::shared_ptr<ExternalVoltageSource> externalSource = std::dynamic_pointer_cast<ExternalVoltageSource>(source);
-                if (externalSource) {
-                    externalSource->update(inputCircuitSample);
-                }
-                source->stamp(*this);
-            }
-
-            for (auto& comp : reactiveComponents) {
-                comp->updateVoltage(*this); 
-                comp->stamp(*this);
-            }
-
-            x.tail(x.size() - 1) = luDecomp.solve(b.tail(b.size() - 1));
-
-            //actualize the voltage value on the voltage probes
-            for (auto& voltageProbe : voltageProbes) {
-				voltageProbe->getVoltage(*this);
-			}
-
-            //test with the first voltage probe
-            float outputCircuitSample = voltageProbes[0]->value;
-
-            float outputSample = outputCircuitSample * std::pow(10.0f, outputGain / 20.0f);
-
-            // Apply mixing (dry/wet)
-            channelSamples[i] = outputSample * mix + (1 - mix) * inputSample;
-        }
-
-        // Save the updated states for this channel
-        channelBStates[channel] = b;
-        channelXStates[channel] = x;
+void Netlist::initializeProcessStrategy() {
+    if (diodes.empty()) {
+        setStrategy(std::make_unique<LinearProcessStrategy>());
+    }
+    else {
+        setStrategy(std::make_unique<NonLinearProcessStrategy>());
     }
 }
 
@@ -211,6 +185,8 @@ std::shared_ptr<Component> Netlist::createComponent(const std::string& netlistLi
         return std::make_shared<CurrentSource>(start_node, end_node, value);
     case 'O':
         return std::make_shared<IdealOPA>(start_node, end_node, value, idx);
+    case 'D':
+        return std::make_shared<Diode>(start_node, end_node);
     default:
         throw std::runtime_error("Unknown component symbol: " + symbol);
     }

@@ -1,7 +1,7 @@
 //netlist.h
 #pragma once
 #include "JuceHeader.h"
-
+#include "processStartegy.h"
 #include <Eigen/Dense>
 #include <vector>
 #include <string>
@@ -9,6 +9,8 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+
+
 
 
 // Forward declarations to avoid circular dependencies
@@ -22,6 +24,7 @@ class ExternalVoltageSource;
 class CurrentSource;
 class IdealOPA;
 class VoltageProbe;
+class Diode;
 
 class Netlist {//: public std::enable_shared_from_this<Netlist> 
 public:
@@ -32,6 +35,7 @@ public:
     std::vector<std::shared_ptr<VoltageSource>> voltageSources;
     std::vector<std::shared_ptr<CurrentSource>> currentSources;
     std::vector<std::shared_ptr<VoltageProbe>> voltageProbes;
+    std::vector<std::shared_ptr<Diode>> diodes;
 
     Eigen::MatrixXd A;
     Eigen::VectorXd x, b;
@@ -39,6 +43,8 @@ public:
 
     std::vector<Eigen::VectorXd> channelBStates;
     std::vector<Eigen::VectorXd> channelXStates;
+
+    std::unique_ptr<ProcessStrategy> processStrategy;
 
     unsigned m;
     unsigned n; // Number of unique nodes including the ground node (0)
@@ -62,8 +68,10 @@ public:
     void setSampleRate(double sampleRate);
     void prepareChannels(int numChannels);
 
+    // Processing methods
+    void initializeProcessStrategy();
+    void setStrategy(std::unique_ptr<ProcessStrategy> strategy);
     void processBlock(juce::dsp::AudioBlock<float>& audioBlock);
-
 
     // Generic function to get components of a specific type
     template <typename T>
@@ -78,13 +86,10 @@ public:
         }
         return specificComponents;
     }
-
-private:
-    // Private attributes
     float inputGain;
     float outputGain;
     float mixPercentage;
-
+private:
     // Private methods
     std::vector<std::shared_ptr<Component>> createComponentListFromTxt(const std::string& filename);
     std::shared_ptr<Component> createComponent(const std::string& netlistLine, unsigned idx);
