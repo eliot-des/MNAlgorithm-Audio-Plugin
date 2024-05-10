@@ -619,6 +619,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\processStategy.cpp">
+      <Filter>Test_MNAlgorithm_v1_4\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\netlist.cpp">
       <Filter>Test_MNAlgorithm_v1_4\Source</Filter>
     </ClCompile>
@@ -3174,6 +3177,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\processStartegy.h">
+      <Filter>Test_MNAlgorithm_v1_4\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\netlist.h">
       <Filter>Test_MNAlgorithm_v1_4\Source</Filter>
     </ClInclude>

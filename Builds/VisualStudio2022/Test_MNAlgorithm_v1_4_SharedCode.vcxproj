@@ -139,6 +139,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\processStategy.cpp"/>
     <ClCompile Include="..\..\Source\netlist.cpp"/>
     <ClCompile Include="..\..\Source\component.cpp"/>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp"/>
@@ -2515,6 +2516,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\processStartegy.h"/>
     <ClInclude Include="..\..\Source\netlist.h"/>
     <ClInclude Include="..\..\Source\component.h"/>
     <ClInclude Include="..\..\Source\PluginProcessor.h"/>

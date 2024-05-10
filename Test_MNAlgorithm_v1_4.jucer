@@ -5,6 +5,10 @@
               jucerFormatVersion="1">
   <MAINGROUP id="hweFpe" name="Test_MNAlgorithm_v1_4">
     <GROUP id="{291E707B-7A1F-5796-BBD6-27354CD7AF19}" name="Source">
+      <FILE id="HFqawj" name="processStartegy.h" compile="0" resource="0"
+            file="Source/processStartegy.h"/>
+      <FILE id="jytFWZ" name="processStategy.cpp" compile="1" resource="0"
+            file="Source/processStategy.cpp"/>
       <FILE id="szjzIg" name="netlist.h" compile="0" resource="0" file="Source/netlist.h"/>
       <FILE id="LxdUKO" name="netlist.cpp" compile="1" resource="0" file="Source/netlist.cpp"/>
       <FILE id="KNCiFE" name="component.h" compile="0" resource="0" file="Source/component.h"/>
