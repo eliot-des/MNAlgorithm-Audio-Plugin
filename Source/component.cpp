@@ -136,8 +136,8 @@ void Diode::stamp(Netlist& netlist) const {
     netlist.A(start_node, end_node) -= Geq;
     netlist.A(end_node, start_node) -= Geq;
 
-    netlist.b(start_node) -= Is;
-    netlist.b(end_node) += Is;
+    netlist.b(start_node) -= Ieq;
+    netlist.b(end_node) += Ieq;
 
 }
 
