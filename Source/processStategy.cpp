@@ -100,10 +100,9 @@ void NonLinearProcessStrategy::processBlock(Netlist& netlist, juce::dsp::AudioBl
                 for (auto& comp : netlist.components) {
                     comp->stamp(netlist);
                 }
+                Eigen::VectorXd x_old = netlist.x;
 
                 netlist.luDecomp.compute(netlist.A.bottomRightCorner(netlist.A.rows() - 1, netlist.A.cols() - 1));
-
-                Eigen::VectorXd x_old = netlist.x;
                 netlist.x.tail(netlist.x.size() - 1) = netlist.luDecomp.solve(netlist.b.tail(netlist.b.size() - 1));
 
                 if ((x_old.tail(x_old.size() - 1) - netlist.x.tail(netlist.x.size() - 1)).norm() < 1e-6) {
